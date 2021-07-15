@@ -45,5 +45,9 @@ public class NovaPropostaRequest {
 				this.endereco,
 				this.salario);
 	}
+
+	public String getDocumento() {
+		return documento;
+	}
 	
 }
