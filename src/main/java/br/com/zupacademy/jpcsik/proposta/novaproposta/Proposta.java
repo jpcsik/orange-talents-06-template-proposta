@@ -3,6 +3,7 @@ package br.com.zupacademy.jpcsik.proposta.novaproposta;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +11,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import org.springframework.util.Assert;
+
+import br.com.zupacademy.jpcsik.proposta.novaproposta.analise.StatusResultadoSolicitacao;
 
 @Entity
 public class Proposta {
@@ -29,6 +34,8 @@ public class Proposta {
 	@NotNull
 	@Positive
 	private BigDecimal salario;
+	@Enumerated
+	private StatusProposta status;
 
 	@Deprecated
 	public Proposta() {
@@ -47,4 +54,18 @@ public class Proposta {
 		return id;
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	//Define o status da proposta com base no status recebido da analise
+	public void definirStatus(StatusResultadoSolicitacao statusResultadoSolicitacao) {
+		Assert.notNull(statusResultadoSolicitacao, "Resultado da solicitação não pode ser nulo");
+		this.status = statusResultadoSolicitacao.normaliza();
+	}
+	
 }

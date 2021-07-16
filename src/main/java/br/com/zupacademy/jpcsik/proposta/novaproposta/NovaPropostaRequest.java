@@ -15,20 +15,20 @@ public class NovaPropostaRequest {
 
 	@NotNull
 	@CpfCnpj
-	private String documento;
+	private final String documento;
 	@NotBlank
 	@Email
-	private String email;
+	private final String email;
 	@NotBlank
-	private String nome;
+	private final String nome;
 	@NotBlank
-	private String endereco;
+	private final String endereco;
 	@NotNull
 	@Positive
-	private BigDecimal salario;
+	private final BigDecimal salario;
 	
 	@JsonCreator
-	public NovaPropostaRequest(String documento, @NotBlank @Email String email, @NotBlank String nome,
+	public NovaPropostaRequest(@NotNull String documento, @NotBlank @Email String email, @NotBlank String nome,
 			@NotBlank String endereco, @NotNull @Positive BigDecimal salario) {
 		this.documento = documento;
 		this.email = email;

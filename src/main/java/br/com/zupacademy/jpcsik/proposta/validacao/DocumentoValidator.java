@@ -27,7 +27,7 @@ public class DocumentoValidator implements Validator{
 	public boolean supports(Class<?> clazz) {
 		return NovaPropostaRequest.class.isAssignableFrom(clazz);
 	}
-
+	
 	@Override
 	public void validate(Object target, Errors errors) {
 		if(errors.hasErrors()) {
@@ -37,7 +37,8 @@ public class DocumentoValidator implements Validator{
 		NovaPropostaRequest request = (NovaPropostaRequest) target;
 		
 		Optional<Proposta> possivelDocumento = propostaRepository.findByDocumento(request.getDocumento());
-		
+
+		//Procura no banco de dados se já existe o documento e joga uma exceção que é tradada no handler
 		if(possivelDocumento.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Documento já está cadastrado!");
 		};
