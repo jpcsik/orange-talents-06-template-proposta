@@ -1,6 +1,6 @@
-package br.com.zupacademy.jpcsik.proposta.novaproposta.analise;
+package br.com.zupacademy.jpcsik.proposta.proposta.analise;
 
-import br.com.zupacademy.jpcsik.proposta.novaproposta.StatusProposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.StatusProposta;
 
 public enum StatusResultadoSolicitacao {
 

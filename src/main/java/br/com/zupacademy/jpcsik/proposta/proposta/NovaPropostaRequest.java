@@ -1,4 +1,4 @@
-package br.com.zupacademy.jpcsik.proposta.novaproposta;
+package br.com.zupacademy.jpcsik.proposta.proposta;
 
 import java.math.BigDecimal;
 

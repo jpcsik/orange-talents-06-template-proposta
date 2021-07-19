@@ -1,4 +1,4 @@
-package br.com.zupacademy.jpcsik.proposta.novaproposta.analise;
+package br.com.zupacademy.jpcsik.proposta.proposta.analise;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

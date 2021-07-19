@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import br.com.zupacademy.jpcsik.proposta.novaproposta.StatusProposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.StatusProposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.analise.StatusResultadoSolicitacao;
 
 class StatusResultadoSolicitacaoTest {
 

@@ -9,9 +9,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.zupacademy.jpcsik.proposta.novaproposta.Proposta;
-import br.com.zupacademy.jpcsik.proposta.novaproposta.PropostaRepository;
-import br.com.zupacademy.jpcsik.proposta.novaproposta.StatusProposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.Proposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.PropostaRepository;
+import br.com.zupacademy.jpcsik.proposta.proposta.StatusProposta;
 import feign.FeignException;
 
 @Component
@@ -27,6 +27,7 @@ public class GeradorDeCartoes {
 	private void gerar(Proposta proposta) {
 		NumeroCartaoDto numeroCartaoDto = apiCartoes.novoCartao(proposta.getId());
 		proposta.adicionaCartao(numeroCartaoDto.getId());
+		proposta.definirStatus(StatusProposta.APROVADA);
 		propostaRepository.save(proposta);
 	}
 	

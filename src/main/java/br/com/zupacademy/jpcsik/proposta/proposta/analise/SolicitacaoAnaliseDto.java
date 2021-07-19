@@ -1,6 +1,6 @@
-package br.com.zupacademy.jpcsik.proposta.novaproposta.analise;
+package br.com.zupacademy.jpcsik.proposta.proposta.analise;
 
-import br.com.zupacademy.jpcsik.proposta.novaproposta.Proposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.Proposta;
 
 public class SolicitacaoAnaliseDto {
 

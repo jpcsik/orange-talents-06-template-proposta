@@ -1,4 +1,4 @@
-package br.com.zupacademy.jpcsik.proposta.novaproposta.analise;
+package br.com.zupacademy.jpcsik.proposta.proposta.analise;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;

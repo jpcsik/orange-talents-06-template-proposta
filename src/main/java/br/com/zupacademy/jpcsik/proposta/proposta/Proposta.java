@@ -1,4 +1,4 @@
-package br.com.zupacademy.jpcsik.proposta.novaproposta;
+package br.com.zupacademy.jpcsik.proposta.proposta;
 
 import java.math.BigDecimal;
 
@@ -13,8 +13,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.util.Assert;
-
-import br.com.zupacademy.jpcsik.proposta.novaproposta.analise.StatusResultadoSolicitacao;
 
 @Entity
 public class Proposta {
@@ -52,9 +50,9 @@ public class Proposta {
 	}
 
 	//Define o status da proposta com base no status recebido da analise
-	public void definirStatus(StatusResultadoSolicitacao statusResultadoSolicitacao) {
-		Assert.notNull(statusResultadoSolicitacao, "Resultado da solicitação não pode ser nulo");
-		this.status = statusResultadoSolicitacao.normaliza();
+	public void definirStatus(StatusProposta statusProposta) {
+		Assert.notNull(statusProposta, "Status da proposta não pode ser nulo");
+		this.status = statusProposta;
 	}
 	
 	//Adiciona um novo cartão caso a proposta seja ELEGIVEL
@@ -79,6 +77,5 @@ public class Proposta {
 	public StatusProposta getStatus() {
 		return status;
 	}
-	
 
 }

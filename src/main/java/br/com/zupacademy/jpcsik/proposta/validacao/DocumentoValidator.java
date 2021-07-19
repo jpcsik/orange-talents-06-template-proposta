@@ -9,9 +9,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.zupacademy.jpcsik.proposta.novaproposta.NovaPropostaRequest;
-import br.com.zupacademy.jpcsik.proposta.novaproposta.Proposta;
-import br.com.zupacademy.jpcsik.proposta.novaproposta.PropostaRepository;
+import br.com.zupacademy.jpcsik.proposta.proposta.NovaPropostaRequest;
+import br.com.zupacademy.jpcsik.proposta.proposta.Proposta;
+import br.com.zupacademy.jpcsik.proposta.proposta.PropostaRepository;
 
 @Component
 public class DocumentoValidator implements Validator{
