@@ -4,9 +4,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url="${analise.solicitacao.url}", name="ServicoAnaliseSolicitacao")
-public interface ServicoAnaliseSolicitacao {
+@FeignClient(url="${analise.solicitacao.url}", name="ApiAnaliseSolicitacao")
+public interface ApiAnaliseSolicitacao {
 
 	@PostMapping
-	ResultadoAnalise analise(@RequestBody SolicitacaoAnalise proposta);
+	ResultadoAnaliseDto analise(@RequestBody SolicitacaoAnaliseDto proposta);
 }

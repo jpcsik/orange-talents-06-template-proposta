@@ -2,13 +2,13 @@ package br.com.zupacademy.jpcsik.proposta.novaproposta.analise;
 
 import br.com.zupacademy.jpcsik.proposta.novaproposta.Proposta;
 
-public class SolicitacaoAnalise {
+public class SolicitacaoAnaliseDto {
 
-	private String documento;
-	private String nome;
-	private String idProposta;
+	private final String documento;
+	private final String nome;
+	private final String idProposta;
 
-	public SolicitacaoAnalise(Proposta proposta) {
+	public SolicitacaoAnaliseDto(Proposta proposta) {
 		this.documento = proposta.getDocumento();
 		this.nome = proposta.getNome();
 		this.idProposta = String.valueOf(proposta.getId()); //Parse do id, de Long para String

@@ -36,6 +36,7 @@ public class Proposta {
 	private BigDecimal salario;
 	@Enumerated
 	private StatusProposta status;
+	private String numeroCartao = "NAO_TEM";
 
 	@Deprecated
 	public Proposta() {
@@ -50,6 +51,19 @@ public class Proposta {
 		this.salario = salario;
 	}
 
+	//Define o status da proposta com base no status recebido da analise
+	public void definirStatus(StatusResultadoSolicitacao statusResultadoSolicitacao) {
+		Assert.notNull(statusResultadoSolicitacao, "Resultado da solicitação não pode ser nulo");
+		this.status = statusResultadoSolicitacao.normaliza();
+	}
+	
+	//Adiciona um novo cartão caso a proposta seja ELEGIVEL
+	public void adicionaCartao(String numeroCartao) {
+		Assert.state(this.status == StatusProposta.ELEGIVEL, "Não deve associar cartão a proposta NAO_ELEGIVEL");
+		Assert.state(this.numeroCartao.equals("NAO_TEM"), "Não deve associar mais de um cartão a proposta");
+		this.numeroCartao = numeroCartao;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -62,10 +76,9 @@ public class Proposta {
 		return documento;
 	}
 
-	//Define o status da proposta com base no status recebido da analise
-	public void definirStatus(StatusResultadoSolicitacao statusResultadoSolicitacao) {
-		Assert.notNull(statusResultadoSolicitacao, "Resultado da solicitação não pode ser nulo");
-		this.status = statusResultadoSolicitacao.normaliza();
+	public StatusProposta getStatus() {
+		return status;
 	}
 	
+
 }

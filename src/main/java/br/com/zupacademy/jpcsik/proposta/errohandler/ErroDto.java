@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class ErroDto {
 
-	private Collection<String> mensagens;
+	private final Collection<String> mensagens;
 	
 	public ErroDto(Collection<String> mensagens) {
 		this.mensagens = mensagens;
