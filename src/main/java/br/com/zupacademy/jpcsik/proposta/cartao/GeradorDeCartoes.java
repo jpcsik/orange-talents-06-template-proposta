@@ -25,8 +25,8 @@ public class GeradorDeCartoes {
 
 	//Gera um novo cartão a partir de uma proposta
 	private void gerar(Proposta proposta) {
-		CartaoDto cartaoDto = apiCartoes.novoCartaoDto(new NovoCartaoDto(proposta));
-		proposta.adicionaCartao(cartaoDto.getId());
+		NumeroCartaoDto numeroCartaoDto = apiCartoes.novoCartao(proposta.getId());
+		proposta.adicionaCartao(numeroCartaoDto.getId());
 		propostaRepository.save(proposta);
 	}
 	
