@@ -11,4 +11,6 @@ public interface PropostaRepository extends JpaRepository<Proposta, Long> {
 
 	//Busca todas as propostas pelo status e pelo numero do cartão
 	Collection<Optional<Proposta>> findAllByStatusAndNumeroCartao(StatusProposta status, String numeroCartao);
+
+	Optional<Proposta> findByNumeroCartao(String numeroCartao);
 }
