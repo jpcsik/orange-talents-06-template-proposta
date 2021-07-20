@@ -30,7 +30,6 @@ public class BiometriaController {
 	@Transactional
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid NovaBiometriaRequest novaBiometria,
 			@PathVariable String numeroCartao, UriComponentsBuilder uriBuilder) {
-		System.out.println(numeroCartao);
 		Optional<Proposta> possivelProposta = propostaRepository.findByNumeroCartao(numeroCartao);
 
 		if (possivelProposta.isEmpty()) {
