@@ -14,10 +14,12 @@ public class DetalhePropostaController {
 	@Autowired
 	private PropostaRepository propostaRepository;
 
+	//Busca detalhes de uma proposta pelo seu id
 	@GetMapping("proposta/detalhar/{id}")
 	public ResponseEntity<?> detalhar(@PathVariable Long id){
 		Optional<Proposta> proposta = propostaRepository.findById(id);
 		
+		//Verifica se proposta existe
 		if(proposta.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

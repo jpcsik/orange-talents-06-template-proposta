@@ -77,5 +77,9 @@ public class Proposta {
 	public StatusProposta getStatus() {
 		return status;
 	}
+	
+	public String getNumeroCartao() {
+		return numeroCartao;
+	}
 
 }

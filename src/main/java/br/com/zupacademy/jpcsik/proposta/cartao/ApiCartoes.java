@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(url="${api.cartoes.url}", name="ApiCartoes")
 public interface ApiCartoes {
-
+	
+	//Pega informações do novo cartão
 	@GetMapping("/api/cartoes")
 	NumeroCartaoDto novoCartao(@PathVariable("IdProposta") Long idProposta);
+	
 }

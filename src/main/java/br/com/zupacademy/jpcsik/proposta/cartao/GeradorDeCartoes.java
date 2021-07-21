@@ -37,6 +37,7 @@ public class GeradorDeCartoes {
 		Collection<Optional<Proposta>> propostasElegiveis = propostaRepository
 				.findAllByStatusAndNumeroCartao(StatusProposta.ELEGIVEL, "NAO_TEM");
 
+		//Para cada proposta elegivel eu tento "gerar" um cartão
 		try {
 			propostasElegiveis.stream().forEach(proposta -> gerar(proposta.get()));
 		} catch (FeignException e) {

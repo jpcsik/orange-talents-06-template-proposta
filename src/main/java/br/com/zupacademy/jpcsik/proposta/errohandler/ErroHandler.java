@@ -17,9 +17,9 @@ import org.springframework.web.server.ResponseStatusException;
 public class ErroHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErroDto> handle(MethodArgumentNotValidException methodArgumentNotValidException) {
+    public ResponseEntity<ErroDto> handlerMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         Collection<String> mensagens = new ArrayList<>();
-        BindingResult bindingResult = methodArgumentNotValidException.getBindingResult();
+        BindingResult bindingResult = exception.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         fieldErrors.forEach(fieldError -> {
             String message = String.format("Campo: %s %s", fieldError.getField(), ", "+ fieldError.getDefaultMessage());
@@ -31,12 +31,12 @@ public class ErroHandler {
     }
     
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ErroDto> handleResponseStatusException(ResponseStatusException responseStatusException) {
+    public ResponseEntity<ErroDto> handleResponseStatusException(ResponseStatusException exception) {
         Collection<String> mensagens = new ArrayList<>();
-        mensagens.add(responseStatusException.getReason());
+        mensagens.add(exception.getReason());
 
         ErroDto erroPadronizado = new ErroDto(mensagens);
-        return ResponseEntity.status(responseStatusException.getStatus()).body(erroPadronizado);
+        return ResponseEntity.status(exception.getStatus()).body(erroPadronizado);
     }
 
 }

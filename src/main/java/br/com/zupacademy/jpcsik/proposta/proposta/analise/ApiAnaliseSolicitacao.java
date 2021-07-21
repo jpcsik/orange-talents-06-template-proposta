@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(url="${analise.solicitacao.url}", name="ApiAnaliseSolicitacao")
 public interface ApiAnaliseSolicitacao {
 
+	//Analisa uma proposta
 	@PostMapping
 	ResultadoAnaliseDto analise(@RequestBody SolicitacaoAnaliseDto proposta);
 }

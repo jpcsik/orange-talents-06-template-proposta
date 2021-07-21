@@ -9,8 +9,9 @@ import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 public class NovaBiometriaRequest {
 
 	@NotBlank
+	//Valida se string está em Base64
 	@Pattern(regexp = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$", message = "Formato invalido!")
-	private String biometria;
+	private final String biometria;
 
 	@JsonCreator(mode = Mode.PROPERTIES)
 	public NovaBiometriaRequest(String biometria) {

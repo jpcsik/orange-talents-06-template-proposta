@@ -32,13 +32,16 @@ public class BiometriaController {
 			@PathVariable String numeroCartao, UriComponentsBuilder uriBuilder) {
 		Optional<Proposta> possivelProposta = propostaRepository.findByNumeroCartao(numeroCartao);
 
+		//Verifica se o cartão existe
 		if (possivelProposta.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 
+		//Salva a biometria
 		Biometria biometria = novaBiometria.toBiometria(numeroCartao);
 		biometriaRepository.save(biometria);
 
+		//Cria uri de resposta
 		URI uri = uriBuilder.path("/biometria/{id}").buildAndExpand(biometria.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 
