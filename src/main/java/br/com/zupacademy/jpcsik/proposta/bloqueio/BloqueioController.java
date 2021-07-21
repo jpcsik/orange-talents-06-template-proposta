@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +24,9 @@ public class BloqueioController {
 	@Autowired
 	private PropostaRepository propostaRepository;
 	
+	@Autowired
+	private BloquearCartaoNoSistema bloquearCartaoNoSistema;
+	
 	@PostMapping("/bloqueio/{numeroCartao}")
 	@Transactional
 	public ResponseEntity<?> bloqueio(@PathVariable String numeroCartao, 
@@ -36,20 +38,15 @@ public class BloqueioController {
 		}
 		
 		Optional<Proposta> possivelCartao = propostaRepository.findByNumeroCartao(numeroCartao);
-		
 		//Verifica se cartão existe
 		if(possivelCartao.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
+		//Notificar o sistema legado
+		bloquearCartaoNoSistema.bloquear(numeroCartao);
+
 		Bloqueio bloqueio = new Bloqueio(numeroCartao, userAgent, request.getRemoteAddr());
-		Optional<Bloqueio> possivelBloqueio = bloqueioRepository.findByNumeroCartao(numeroCartao);
-		
-		//Verifica se cartão já está bloqueado
-		if(possivelBloqueio.isPresent()) {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
-		}
-		
 		//Salva o bloqueio do cartão
 		bloqueioRepository.save(bloqueio);
 		return ResponseEntity.ok().build();

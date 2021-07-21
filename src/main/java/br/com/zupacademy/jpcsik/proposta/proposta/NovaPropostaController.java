@@ -54,7 +54,9 @@ public class NovaPropostaController {
 			ResultadoAnaliseDto propostaAnalisada = apiAnaliseSolicitacao.analise(new SolicitacaoAnaliseDto(proposta));
 			proposta.definirStatus(propostaAnalisada.getResultadoSolicitacao().normaliza());
 		} catch (FeignClientException e) {
-			proposta.definirStatus(StatusProposta.NAO_ELEGIVEL);
+			if(e.status() == 422) {
+				proposta.definirStatus(StatusProposta.NAO_ELEGIVEL);
+			}
 		} catch(FeignException e) {
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Serviço indisponivel!");
 		}
