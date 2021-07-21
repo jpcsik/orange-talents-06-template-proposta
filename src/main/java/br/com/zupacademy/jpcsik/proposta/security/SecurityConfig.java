@@ -15,6 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
+			.antMatchers("/actuator/**").permitAll()
 			.antMatchers("/h2-console/**").permitAll()
 			.anyRequest().hasAuthority("SCOPE_proposta")
 			.and()
