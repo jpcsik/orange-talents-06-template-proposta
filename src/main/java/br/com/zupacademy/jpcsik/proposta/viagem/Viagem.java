@@ -45,5 +45,12 @@ public class Viagem {
 		this.ip = ip;
 		this.userAgent = userAgent;
 	}
+
+	public String getDestino() {
+		return destino;
+	}
 	
+	public LocalDate getDataRetorno() {
+		return dataRetorno;
+	}
 }

@@ -22,6 +22,9 @@ public class ViagemController {
 	@Autowired
 	private VerificarNumeroCartao verificarNumeroCartao;
 	
+	@Autowired
+	private NotificarSistemaViagem notificarSistemaViagem;
+	
 	@PostMapping("/viagem/cadastrar/{numeroCartao}")
 	public ResponseEntity<?> cadastrar(@PathVariable String numeroCartao, 
 			@RequestHeader(value="User-Agent") String userAgent, HttpServletRequest request, 
@@ -36,6 +39,10 @@ public class ViagemController {
 		verificarNumeroCartao.verificar(numeroCartao);
 		
 		Viagem viagem = novaViagem.toViagem(numeroCartao, numeroCartao, userAgent);
+
+		//Notifica sistema sobre nova viagem
+		notificarSistemaViagem.notificar(numeroCartao, viagem);
+		
 		//Salvar viagem
 		viagemRepository.save(viagem);
 		return ResponseEntity.ok().build();

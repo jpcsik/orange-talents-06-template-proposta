@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import br.com.zupacademy.jpcsik.proposta.viagem.AvisoViagemDto;
+
 @FeignClient(url="${api.cartoes.url}", name="ApiCartoes")
 public interface ApiCartoes {
 	
@@ -21,5 +23,9 @@ public interface ApiCartoes {
 	//Faz requisição para bloquear cartão
 	@PostMapping("/api/cartoes/{id}/bloqueios")
 	void solicitarBloqueio(@PathVariable("id") String numeroCartao, Map<String, Object> map);
+	
+	//Notifica sistema bancario sobre nova viagem
+	@PostMapping("/api/cartoes/{id}/avisos")
+	void avisoViagem(@PathVariable("id") String numeroCartao, AvisoViagemDto aviso);
 
 }

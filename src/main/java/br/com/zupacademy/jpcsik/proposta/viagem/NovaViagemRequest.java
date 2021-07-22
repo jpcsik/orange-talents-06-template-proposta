@@ -16,7 +16,7 @@ public class NovaViagemRequest {
 	private String destino;
 	@NotNull
 	@Future
-	@JsonFormat(shape = Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dataRetorno;
 
 	@JsonCreator
