@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zupacademy.jpcsik.proposta.cartao.VerificarNumeroCartao;
+import br.com.zupacademy.jpcsik.proposta.cartao.ApiCartoes;
 
 @RestController
 public class ViagemController {
@@ -20,10 +20,7 @@ public class ViagemController {
 	private ViagemRepository viagemRepository;
 	
 	@Autowired
-	private VerificarNumeroCartao verificarNumeroCartao;
-	
-	@Autowired
-	private NotificarSistemaViagem notificarSistemaViagem;
+	private ApiCartoes apiCartoes;
 	
 	@PostMapping("/viagem/cadastrar/{numeroCartao}")
 	public ResponseEntity<?> cadastrar(@PathVariable String numeroCartao, 
@@ -36,12 +33,12 @@ public class ViagemController {
 		}
 		
 		//Verifica se cartão existe
-		verificarNumeroCartao.verificar(numeroCartao);
+		apiCartoes.existeCartao(numeroCartao);
 		
-		Viagem viagem = novaViagem.toViagem(numeroCartao, numeroCartao, userAgent);
+		Viagem viagem = novaViagem.toViagem(numeroCartao, request.getRemoteAddr(), userAgent);
 
 		//Notifica sistema sobre nova viagem
-		notificarSistemaViagem.notificar(numeroCartao, viagem);
+		apiCartoes.avisoViagem(numeroCartao, new AvisoViagemDto(viagem));
 		
 		//Salvar viagem
 		viagemRepository.save(viagem);

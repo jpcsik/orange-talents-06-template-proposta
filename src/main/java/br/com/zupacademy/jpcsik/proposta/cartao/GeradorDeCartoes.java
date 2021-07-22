@@ -4,15 +4,12 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.jpcsik.proposta.proposta.Proposta;
 import br.com.zupacademy.jpcsik.proposta.proposta.PropostaRepository;
 import br.com.zupacademy.jpcsik.proposta.proposta.StatusProposta;
-import feign.FeignException;
 
 @Component
 public class GeradorDeCartoes {
@@ -38,11 +35,8 @@ public class GeradorDeCartoes {
 				.findAllByStatusAndNumeroCartao(StatusProposta.ELEGIVEL, "NAO_TEM");
 
 		//Para cada proposta elegivel eu tento "gerar" um cartão
-		try {
-			propostasElegiveis.stream().forEach(proposta -> gerar(proposta.get()));
-		} catch (FeignException e) {
-			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Serviço indisponivel!");
-		}
+		propostasElegiveis.stream().forEach(proposta -> gerar(proposta.get()));
+		
 		
 	}
 }

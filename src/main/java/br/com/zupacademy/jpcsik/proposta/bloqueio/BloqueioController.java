@@ -1,5 +1,7 @@
 package br.com.zupacademy.jpcsik.proposta.bloqueio;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zupacademy.jpcsik.proposta.cartao.VerificarNumeroCartao;
+import br.com.zupacademy.jpcsik.proposta.cartao.ApiCartoes;
 
 @RestController
 public class BloqueioController {
@@ -19,10 +21,7 @@ public class BloqueioController {
 	private BloqueioRepository bloqueioRepository;
 	
 	@Autowired
-	private VerificarNumeroCartao verificarNumeroCartao;
-	
-	@Autowired
-	private BloquearCartaoNoSistema bloquearCartaoNoSistema;
+	private ApiCartoes apiCartoes;
 	
 	@PostMapping("/bloqueio/{numeroCartao}")
 	@Transactional
@@ -35,10 +34,10 @@ public class BloqueioController {
 		}
 		
 		//Verifica se cartão existe
-		verificarNumeroCartao.verificar(numeroCartao);
+		apiCartoes.existeCartao(numeroCartao);
 		
-		//Notificar o sistema legado
-		bloquearCartaoNoSistema.bloquear(numeroCartao);
+		//Notificar o sistema legado sobre o bloqueio
+		apiCartoes.solicitarBloqueio(numeroCartao, Map.of("sistemaResponsavel", new String("proposta")));
 
 		Bloqueio bloqueio = new Bloqueio(numeroCartao, userAgent, request.getRemoteAddr());
 		//Salva o bloqueio do cartão

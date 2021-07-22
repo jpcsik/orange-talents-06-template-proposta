@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.zupacademy.jpcsik.proposta.cartao.VerificarNumeroCartao;
+import br.com.zupacademy.jpcsik.proposta.cartao.ApiCartoes;
 
 @RestController
 public class BiometriaController {
@@ -22,15 +22,15 @@ public class BiometriaController {
 	private BiometriaRepository biometriaRepository;
 	
 	@Autowired
-	private VerificarNumeroCartao verificarNumeroCartao;
-
+	private ApiCartoes apiCartoes;
+	
 	@PostMapping("/biometria/cadastrar/{numeroCartao}")
 	@Transactional
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid NovaBiometriaRequest novaBiometria,
 			@PathVariable String numeroCartao, UriComponentsBuilder uriBuilder) {
 		
 		//Verifica se cartão existe
-		verificarNumeroCartao.verificar(numeroCartao);
+		apiCartoes.existeCartao(numeroCartao);
 
 		//Salva a biometria
 		Biometria biometria = novaBiometria.toBiometria(numeroCartao);
