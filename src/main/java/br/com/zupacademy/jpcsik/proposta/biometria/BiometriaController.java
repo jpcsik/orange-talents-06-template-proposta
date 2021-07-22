@@ -1,7 +1,6 @@
 package br.com.zupacademy.jpcsik.proposta.biometria;
 
 import java.net.URI;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -14,28 +13,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.zupacademy.jpcsik.proposta.proposta.Proposta;
-import br.com.zupacademy.jpcsik.proposta.proposta.PropostaRepository;
+import br.com.zupacademy.jpcsik.proposta.cartao.VerificarNumeroCartao;
 
 @RestController
 public class BiometriaController {
 
 	@Autowired
 	private BiometriaRepository biometriaRepository;
-
+	
 	@Autowired
-	private PropostaRepository propostaRepository;
+	private VerificarNumeroCartao verificarNumeroCartao;
 
 	@PostMapping("/biometria/cadastrar/{numeroCartao}")
 	@Transactional
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid NovaBiometriaRequest novaBiometria,
 			@PathVariable String numeroCartao, UriComponentsBuilder uriBuilder) {
-		Optional<Proposta> possivelProposta = propostaRepository.findByNumeroCartao(numeroCartao);
-
-		//Verifica se o cartão existe
-		if (possivelProposta.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
+		
+		//Verifica se cartão existe
+		verificarNumeroCartao.verificar(numeroCartao);
 
 		//Salva a biometria
 		Biometria biometria = novaBiometria.toBiometria(numeroCartao);
