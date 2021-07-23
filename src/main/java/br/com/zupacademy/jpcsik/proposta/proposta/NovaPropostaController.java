@@ -5,8 +5,11 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -32,6 +35,12 @@ public class NovaPropostaController {
 	@Autowired
 	private ApiAnaliseSolicitacao apiAnaliseSolicitacao;
 	
+	@Value("${encryptor.password}")
+	private String password;
+
+	@Value("${encryptor.salt}")
+	private String salt;
+	
 	//Valida se o documento que vêm na requisição já existe
 	@Autowired
 	private DocumentoValidator documentoValidator;
@@ -44,14 +53,18 @@ public class NovaPropostaController {
 	@PostMapping("/proposta/cadastrar")
 	@Transactional
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid NovaPropostaRequest novaProposta, UriComponentsBuilder uriBuilder) {
-		Proposta proposta = novaProposta.toProposta();
 		
+		//Classe responsável por criptografar o documento 
+		TextEncryptor encryptor = Encryptors.text(password, salt);
+		
+		Proposta proposta = novaProposta.toProposta(encryptor);
+
 		//Salva a proposta no banco gerando um Id
 		propostaRepository.save(proposta);
 		
 		//Trata as possíveis exceções que o serviço de analise pode jogar
 		try {
-			ResultadoAnaliseDto propostaAnalisada = apiAnaliseSolicitacao.analise(new SolicitacaoAnaliseDto(proposta));
+			ResultadoAnaliseDto propostaAnalisada = apiAnaliseSolicitacao.analise(new SolicitacaoAnaliseDto(proposta, encryptor));
 			proposta.definirStatus(propostaAnalisada.getResultadoSolicitacao().normaliza());
 		} catch (FeignClientException e) {
 			if(e.status() == 422) {

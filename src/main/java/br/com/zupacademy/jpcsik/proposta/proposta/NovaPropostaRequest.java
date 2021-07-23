@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import br.com.zupacademy.jpcsik.proposta.validacao.CpfCnpj;
@@ -37,9 +39,9 @@ public class NovaPropostaRequest {
 		this.salario = salario;
 	}
 	
-	public Proposta toProposta(){
+	public Proposta toProposta(TextEncryptor encryptor){
 		return new Proposta(
-				this.documento,
+				encryptor.encrypt(this.documento), //Criptografa o documento para ser salvo
 				this.email,
 				this.nome,
 				this.endereco,
