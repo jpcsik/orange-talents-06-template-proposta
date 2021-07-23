@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ public class CarteiraController {
 	private ApiCartoes apiCartoes;
 	
 	@PostMapping("carteira/cadastrar/{numeroCartao}")
+	@Transactional
 	public ResponseEntity<?> cadastrar(@PathVariable String numeroCartao, @RequestBody @Valid NovaCarteiraRequest carteira, UriComponentsBuilder uriBuilder){
 		
 		//Verifica se numero do cartão é valido

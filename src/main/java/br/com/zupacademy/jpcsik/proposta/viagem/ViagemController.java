@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ public class ViagemController {
 	private ApiCartoes apiCartoes;
 	
 	@PostMapping("/viagem/cadastrar/{numeroCartao}")
+	@Transactional
 	public ResponseEntity<?> cadastrar(@PathVariable String numeroCartao, 
 			@RequestHeader(value="User-Agent") String userAgent, HttpServletRequest request, 
 			@RequestBody @Valid NovaViagemRequest novaViagem){
