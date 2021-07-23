@@ -8,6 +8,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_SYNC_LIMIT: 2
 
+
   kafka:
     image: "confluentinc/cp-kafka:5.2.1"
     ports:
@@ -22,6 +23,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
+
   postgres:
     image: 'postgres:alpine'
     volumes:
@@ -33,6 +35,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
+
 
   keycloak:
     image: jboss/keycloak
@@ -62,6 +65,7 @@ services:
       KEYCLOAK_PASSWORD: Pa55w0rd
       POSTGRES_PORT_5432_TCP_ADDR: 127.0.0.1
 
+
   analise:
     image: 'zupacademy/analise-financeira'
     ports:
@@ -72,6 +76,7 @@ services:
       URL_SISTEMA_CARTAO: http://contas:8888/api/cartoes
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
 
+
   contas:
     image: 'zupacademy/contas'
     ports:
@@ -80,6 +85,7 @@ services:
       SERVER_PORT: 8888
       LOG_LEVEL: INFO
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+
 
   transacoes:
     image: 'zupacademy/transacoes'
@@ -106,6 +112,7 @@ services:
       - 9411:9411
     environment:
       COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+
 
   prometheus:
     image: prom/prometheus
@@ -134,14 +141,20 @@ services:
       VAULT_TOKEN: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_ADDR: http://127.0.0.1:8200
 
+      
   proposta:
     image: proposta
     ports:
-      - 8081:8080
+      - 8080:8080
+    depends_on:
+      - keycloak
     environment:
       ANALISE_SOLICITACAO_URL: http://analise:9999/api/solicitacao
       API_CARTOES_URL: http://contas:8888
-    
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+      JWT_ISSUER_URI: http://keycloak:8080/auth/realms/nosso-cartao
+      JWK_SET_URI: http://keycloak:8080/auth/realms/nosso-cartao/protocol/openid-connect/certs
+
 volumes:
   grafana-volume:
   prometheus-volume:
